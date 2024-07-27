@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Input Preview</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // Your code will go here
+    const { useState } = React;
+
+    const ColorInput = () => {
+      const [color, setColor] = useState('');
+      const [error, setError] = useState('');
+
+      const handleChange = (e) => {
+        const value = e.target.value;
+        setColor(value);
+
+        // Validate HEX color value
+        if (/^#([0-9A-F]{3}){1,2}$/i.test(value)) {
+          setError('');
+        } else {
+          setError('Invalid HEX color code');
+        }
+      };
+
+      return (
+        <div style={{ textAlign: 'center', marginTop: '50px' }}>
+          <input
+            type="text"
+            value={color}
+            onChange={handleChange}
+            placeholder="Enter HEX color value"
+            style={{ padding: '10px', fontSize: '16px' }}
+          />
+          {error && <div style={{ color: 'red', marginTop: '10px' }}>{error}</div>}
+          <div
+            style={{
+              marginTop: '20px',
+              width: '100px',
+              height: '100px',
+              backgroundColor: error ? 'transparent' : color,
+              border: '1px solid #ccc'
+            }}
+          />
+        </div>
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<ColorInput />);
+  </script>
+</html>
